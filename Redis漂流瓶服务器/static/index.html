@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎使用趣味漂流瓶</title>
+    <link rel="stylesheet" href="./css/manStyle.css">
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/model.js"></script>
+</head>
+<body>
+    <h1></h1>
+    <div class="musicImg">
+        <img src="./images/musicImg.jpg" alt="">
+        <div class="introduce">
+            <br>
+            歌曲名:缘之空 <br><br>
+            作者:不详 <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;--动漫缘之空主题曲
+        </div>
+    </div>
+<div class="musicBox">
+    <audio src="./others/bgmusic.mp3" autoplay="autoplay" loop="loop" controls="controls"></audio>
+</div>
+<div class="mainBox" ng-controller="myController">
+    <a href="javascript:void (0);" ng-click="pick()">捡一个漂流瓶</a>
+    <a href="javascript:void (0);">丢一个漂流瓶</a>
+    <div class="detileTop" id="detileTop">一段文字,一场邂逅...</div>
+    <div class="detileBottom" id="detileBottom">在最美的时光遇见最美的TA~</div>
+</div>
+    <script>
+        var detileTop = document.getElementById('detileTop');
+        var detileBottom = document.getElementById('detileBottom');
+        detileTop.style.opacity = 0;
+        detileBottom.style.opacity = 0;
+        var ls = 0;
+        var cs = 0;
+        var flag = false;
+        var type = false;
+        var right = 100;
+        var timer;
+        setTimeout(anmite,2000);
+        function anmite(){
+            textleftAnm(detileTop,2,0.05,40,1, function () {
+                textRightAnm(detileBottom,2,0.03,40,1);
+            });
+        }
+        function textRightAnm (dom,Lsteap,Csteap,Ltarget,Ctarget,callback){
+            function play() {
+                right -= Lsteap;
+                cs +=Csteap;
+                dom.style.left = right + 'px';
+                dom.style.opacity = cs;
+                if (right <= Ltarget) {
+                    dom.style.left = Ltarget + 'px';
+                    flag = true;
+                }
+                if(cs >= Ctarget){
+                    dom.style.opacity = Ctarget;
+                    type = true;
+                }
+                if(flag&&type){
+                    clearInterval(timer);
+                    callback && callback();
+                    flag = false;
+                    type = false;
+                }
+            }
+            timer = setInterval(play,60);
+
+        }
+        function textleftAnm (dom,Lsteap,Csteap,Ltarget,Ctarget,callback){
+            function play() {
+                ls += Lsteap;
+                cs +=Csteap;
+                dom.style.left = ls + 'px';
+                dom.style.opacity = cs;
+                if (ls >= Ltarget) {
+                    dom.style.left = Ltarget + 'px';
+                    flag = true;
+                }
+                if(cs >= Ctarget){
+                    dom.style.opacity = Ctarget;
+                    type = true;
+                }
+                if(flag&&type){
+                    clearInterval(timer);
+                    callback && callback();
+                    cs = 0;
+                    ls = 0;
+                    flag = false;
+                    type = false;
+                }
+            }
+            timer = setInterval(play,60);
+
+        }
+    </script>
+</body>
+</html>
